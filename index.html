@@ -36,13 +36,21 @@
             background-color: var(--color-background);
             color: var(--color-text-main);
             line-height: 1.6;
+            /* 關鍵修正：強制隱藏水平捲動條，確保不會因為內容溢出而造成水平捲動 */
+            overflow-x: hidden; 
+        }
+        
+        /* 確保最外層容器不會溢出 */
+        .page {
+            overflow-x: hidden; 
+            width: 100%;
         }
 
         /* 內容外層容器，確保頁面內容居中且有 padding */
         .container {
             width: 100%;
             max-width: 1440px; /* 最大寬度限制 */
-            padding: 0 1rem; /* 手機優先的左右邊距 */
+            padding: 0 1rem; /* 手機優先的左右邊距，1rem = 16px */
             margin: 0 auto;
         }
 
@@ -92,6 +100,8 @@
             text-transform: uppercase;
             font-weight: bold;
             transition: background-color 0.3s ease;
+            /* 確保按鈕內容不會在極窄螢幕下溢出 */
+            white-space: nowrap; 
         }
 
         .button:hover {
@@ -112,6 +122,8 @@
             justify-content: space-between;
             align-items: center;
             min-height: 4rem; /* 導覽列最小高度 */
+            /* 確保導覽列內容不會被壓縮得太小，導致溢出 */
+            min-width: 0;
         }
 
         .nav-logo {
@@ -120,6 +132,10 @@
             color: var(--color-text-main);
             padding: 0.5rem 0;
             white-space: nowrap;
+            /* 允許 Logo 在極窄時被截斷或省略 */
+            overflow: hidden; 
+            text-overflow: ellipsis;
+            max-width: 60%; /* 限制 logo 寬度，避免與菜單按鈕衝突 */
         }
 
         .nav-list {
@@ -181,6 +197,7 @@
             color: var(--color-primary);
             margin-bottom: 0.5rem;
             line-height: 1.2;
+            word-break: break-word; /* 允許長標題在極窄螢幕上斷行 */
         }
 
         .hero-subtitle {
@@ -223,7 +240,8 @@
         
         .skill-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); /* 手機版至少 140px 一欄 */
+            /* 調整 minmax(140px, 1fr) 以確保在 320px 寬度下，如果 Grid 容器寬度是 (320px - 2rem*2) = 288px，只會顯示單欄 */
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); 
             gap: 1.5rem;
             text-align: center;
         }
@@ -233,6 +251,8 @@
             padding: 1rem;
             border-radius: 8px;
             border-bottom: 3px solid var(--color-primary);
+            /* 確保卡片內容不會溢出 */
+            min-width: 0;
         }
         /* CSS:SKILLS-END */
 
@@ -262,6 +282,8 @@
         
         .project-info {
             padding: 1.5rem;
+            /* 確保文字不會造成溢出 */
+            min-width: 0;
         }
         
         .project-title {
@@ -288,6 +310,7 @@
         .contact-item {
             margin-bottom: 1rem;
             font-size: 1.1rem;
+            word-break: break-word; /* 允許長連結斷行 */
         }
         /* CSS:CONTACT-END */
 
@@ -302,6 +325,10 @@
             
             .menu-toggle {
                 display: none;
+            }
+            
+            .nav-logo {
+                max-width: none; /* 桌面版取消寬度限制 */
             }
 
             .nav-link {
